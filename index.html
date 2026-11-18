@@ -1,88 +1,80 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#eaf7ff"><meta name="description" content="مدیریت ساعت کاری و دستمزد سوپرمارکت عمو پرویز">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#168bd2"><title>سامانه مدیریت ساعت کاری</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
-<title>سوپرمارکت عمو پرویز</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
-:root{--blue:#168bd2;--deep:#075985;--sky:#eaf7ff;--ink:#163247;--muted:#6d8494;--line:#e2edf4;--white:#fff;--green:#15976b;--red:#d64c5b;--shadow:0 12px 34px #16496b12}
-*{box-sizing:border-box}body{margin:0;background:#f4f9fc;color:var(--ink);font-family:Vazirmatn,Tahoma,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{max-width:1100px;margin:auto;padding:18px 16px 90px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,#42b8f5,#0878bd);display:grid;place-items:center;color:white;font-size:24px;box-shadow:0 8px 18px #168bd233}.brand h1{font-size:18px;margin:0;font-weight:800}.brand p{font-size:11px;color:var(--muted);margin:2px 0 0}.role{background:white;border:1px solid var(--line);border-radius:14px;padding:9px 12px;color:var(--deep);font-size:12px;font-weight:700}.hero{background:linear-gradient(120deg,#075985,#159bd8);color:#fff;border-radius:24px;padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:210px;height:210px;border:1px solid #ffffff25;border-radius:50%;left:-65px;top:-100px;box-shadow:0 0 0 28px #ffffff0d,0 0 0 58px #ffffff09}.hero small{color:#d6f1ff}.hero h2{font-size:23px;margin:6px 0}.hero p{font-size:12px;color:#d6f1ff;margin:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.stat,.panel,.card{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}.stat span{font-size:11px;color:var(--muted)}.stat strong{display:block;font-size:20px;margin-top:6px;direction:ltr;text-align:right}.stat em{font-size:10px;color:var(--muted);font-style:normal}.tabs{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}.tab{white-space:nowrap;background:#fff;border:1px solid var(--line);color:var(--muted);padding:10px 15px;border-radius:13px;font-size:12px;font-weight:700}.tab.active{background:var(--sky);border-color:#b9e4fb;color:var(--deep)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.panel h3{font-size:15px;margin:0 0 14px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--muted);font-weight:600}.field input,.field select,.field textarea{width:100%;border:1px solid #dce9f1;background:#fbfdff;border-radius:12px;padding:11px 12px;outline:none;color:var(--ink)}.field input:focus,.field select:focus{border-color:#72c6f2;box-shadow:0 0 0 3px #168bd214}.hint{font-size:10px;color:var(--muted);line-height:1.8}.btn{padding:11px 16px;border-radius:12px;font-size:12px;font-weight:700}.primary{background:var(--blue);color:white;box-shadow:0 7px 16px #168bd22b}.soft{background:var(--sky);color:var(--deep)}.danger{background:#fff0f1;color:var(--red)}.success{background:#e9f8f2;color:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.amount{background:#f0f9ff;border:1px solid #d5efff;padding:16px;border-radius:16px;margin-top:12px}.amount span{font-size:11px;color:var(--muted)}.amount strong{display:block;font-size:24px;color:var(--deep);margin-top:4px}.list{display:flex;flex-direction:column;gap:9px}.entry{border:1px solid var(--line);border-radius:15px;padding:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}.entry b{font-size:12px}.entry small{display:block;color:var(--muted);font-size:10px;margin-top:4px}.entry .money{font-weight:800;color:var(--deep);font-size:13px;white-space:nowrap}.pill{display:inline-block;background:#eff8fd;color:var(--deep);border-radius:8px;padding:4px 7px;font-size:10px}.hidden{display:none!important}.empty{text-align:center;padding:28px 12px;color:var(--muted);font-size:12px}.section{margin-top:14px}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.section-title h3{font-size:15px;margin:0}.notice{background:#fff8e8;border:1px solid #f6e3b6;border-radius:13px;padding:11px 13px;font-size:11px;line-height:1.9;color:#76571b;margin:12px 0}.footer{text-align:center;color:#9aabb7;font-size:10px;margin-top:28px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:11px;min-width:520px}th,td{padding:11px 8px;border-bottom:1px solid var(--line);text-align:right}th{color:var(--muted);font-weight:600}.modal-back{position:fixed;inset:0;background:#102c3d77;display:grid;place-items:center;padding:18px;z-index:10}.modal{background:white;border-radius:20px;padding:20px;width:min(440px,100%);max-height:90vh;overflow:auto}.modal h3{margin-top:0}.bottomnav{display:none}
-@media(max-width:720px){.app{padding:14px 12px 88px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:16px}.grid{grid-template-columns:1fr}.hero{padding:19px}.hero h2{font-size:20px}.fields{gap:9px}.top{align-items:flex-start}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));justify-content:space-around;z-index:5}.bottomnav button{background:none;color:var(--muted);font-size:10px;display:grid;gap:3px;justify-items:center}.bottomnav button.active{color:var(--blue);font-weight:800}.bottomnav span{font-size:19px}}
-</style>
-</head>
+:root{--blue:#168bd2;--sky:#eaf6ff;--ink:#173247;--muted:#6b8191;--line:#dceaf3;--white:#fff;--green:#16865c;--red:#c94b55;--shadow:0 8px 28px #14577d12;--shadow-hover:0 14px 34px #14577d20}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0%,#e5f5ff 0,transparent 28%),#f4f9fd;color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#168bd2,#39aeea);color:#fff;font-weight:700;box-shadow:0 5px 14px #168bd226;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}button:hover{transform:translateY(-2px);box-shadow:0 9px 20px #168bd233;filter:saturate(1.08)}button:active{transform:translateY(0) scale(.97);box-shadow:0 2px 7px #168bd220}button.secondary{background:#e7f3fb;color:#176b9e;box-shadow:none}button.danger{background:#fff0f0;color:var(--red);box-shadow:none}button.ghost{background:transparent;color:var(--blue);padding:8px;box-shadow:none}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+header{background:linear-gradient(120deg,#0878bd,#43b4ed);color:white;padding:22px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 10px 30px #0878bd24}header h1{letter-spacing:-.4px}header h1{font-size:22px;margin:0 0 6px}header p{margin:0;color:#e4f5ff;font-size:13px}.wrap{max-width:1100px;margin:22px auto;padding:0 16px}.tabs{display:flex;gap:8px;overflow:auto;padding:5px 0 14px}.tabs button{white-space:nowrap;background:#e5f2fa;color:#39718f}.tabs button.active{background:var(--blue);color:white}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px;transition:transform .25s ease,box-shadow .25s ease}.card:hover{box-shadow:var(--shadow-hover)}.stat small{color:var(--muted)}.stat strong{display:block;font-size:23px;margin-top:9px}.section-title{font-size:18px;margin:4px 0 16px}.row{display:flex;gap:12px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:7px;flex:1;min-width:145px;margin-bottom:13px}.field label{font-size:13px;color:#547084}.field input,.field select{width:100%;padding:12px;border:1px solid #cfe0eb;border-radius:11px;background:#fff;color:var(--ink);min-height:44px}.field input:focus,.field select:focus{outline:2px solid #b9e3fa;border-color:var(--blue)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.muted{color:var(--muted);font-size:13px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:right;padding:12px;border-bottom:1px solid var(--line);font-size:13px}th{color:#557489;background:#f7fbfe}.pill{display:inline-block;border-radius:30px;padding:5px 9px;background:#e8f7ef;color:var(--green);font-size:12px}.empty{text-align:center;color:var(--muted);padding:25px}.hidden{display:none!important}.notice{background:#fff8e7;border:1px solid #f3e1b2;color:#80611b;padding:12px;border-radius:12px;font-size:13px;margin-bottom:14px}.positive{color:var(--green)}.negative{color:var(--red)}footer{text-align:center;color:#8298a8;font-size:12px;padding:24px}.welcome{position:relative;overflow:hidden;background:linear-gradient(120deg,#0b78b9,#4bb9ef);color:#fff;border:0;box-shadow:0 14px 34px #168bd226}.welcome:after{content:'✦';position:absolute;left:24px;top:2px;font-size:92px;opacity:.12;transform:rotate(15deg)}.welcome h2{margin:0 0 9px;font-size:21px}.welcome p{margin:5px 0;color:#eaf8ff;line-height:1.9}.quote{font-size:14px;font-weight:700;color:#fff}.subline{font-size:12px;color:#e5f6ff}.result-box{background:#eff9ff;border:1px solid #ccecff;border-radius:14px;padding:14px;margin-top:12px}.result-box strong{font-size:20px;color:#0878bd}.brand-credit{font-weight:700;letter-spacing:1px;color:#168bd2}.badge-pending{background:#fff4d8;color:#946200}.badge-paid{background:#e8f7ef;color:#16865c}.tab-content{animation:fadeUp .32s ease both}@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}header{padding:18px}.wrap{margin:14px auto}.card{padding:14px}.stat strong{font-size:19px}}
+@media print{header,.tabs,.no-print,footer{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}.wrap{max-width:none}}
+</style></head>
 <body>
-<div class="app">
-<header class="top"><div class="brand"><div class="logo">◷</div><div><h1>سوپرمارکت عمو پرویز</h1><p>مدیریت ساعت کاری و دستمزد</p></div></div><button class="role" id="roleBtn">پنل مدیریت ▾</button></header>
-<section class="hero"><small id="todayLabel">امروز</small><h2 id="hello">خوش اومدی 👋</h2><p>ساعت‌های کاری رو ثبت کن؛ محاسبه و سوابق با برنامه.</p></section>
-<section class="stats">
- <div class="stat"><span>کارکرد این ماه</span><strong id="monthHours">۰</strong><em>ساعت</em></div>
- <div class="stat"><span>دستمزد این ماه</span><strong id="monthPay">۰</strong><em>تومان</em></div>
- <div class="stat"><span>مانده پرداختی</span><strong id="monthDue">۰</strong><em>تومان</em></div>
-</section>
-<nav class="tabs" id="tabs">
- <button class="tab active" data-page="dashboard">داشبورد</button><button class="tab" data-page="register">ثبت ساعت کاری</button><button class="tab" data-page="history">تاریخچه</button><button class="tab" data-page="payments">پرداخت‌ها</button><button class="tab" data-page="settings">تنظیمات</button>
-</nav>
-<main>
-<section id="dashboard" class="page">
- <div class="grid">
-  <div class="panel"><h3>ثبت سریع ساعت کاری</h3><div class="fields">
-   <div class="field"><label>تاریخ شمسی</label><input id="quickDate" type="date"></div>
-   <div class="field"><label>نوع محاسبه</label><select id="quickMode"><option value="hourly">ساعتی</option><option value="daily">روزانه</option></select></div>
-   <div class="field"><label>شروع کار</label><input id="quickStart" type="time" value="07:00"></div>
-   <div class="field"><label>پایان کار</label><input id="quickEnd" type="time" value="15:00"></div>
-   <div class="field"><label>استراحت (دقیقه)</label><input id="quickBreak" type="number" min="0" value="0"></div>
-   <div class="field"><label>نرخ هر ساعت (تومان)</label><input id="quickRate" type="number" min="0"></div>
-  </div><div class="amount"><span>مبلغ تخمینی این شیفت</span><strong id="quickTotal">۰ تومان</strong><div class="hint" id="quickDuration">۸ ساعت کار خالص</div></div><div class="actions"><button class="btn primary" id="quickSave">ثبت این شیفت</button><button class="btn soft" id="goRegister">جزئیات بیشتر</button></div></div>
-  <div class="panel"><h3>آخرین فعالیت‌ها</h3><div id="recentList" class="list"></div><div class="actions"><button class="btn soft" data-go="history">مشاهده همه سوابق ←</button></div></div>
- </div>
- <div class="notice">نکته: مبلغ هر شیفت بر اساس نرخ ثبت‌شده در همان روز محاسبه می‌شود؛ بنابراین تغییر نرخ در آینده، سوابق قبلی را عوض نمی‌کند.</div>
-</section>
-<section id="register" class="page hidden">
- <div class="panel"><h3>ثبت ساعت کاری جدید</h3><div class="fields">
-  <div class="field"><label>تاریخ</label><input id="regDate" type="date"></div>
-  <div class="field"><label>روش محاسبه</label><select id="regMode"><option value="hourly">ساعتی</option><option value="daily">روزانه</option></select></div>
-  <div class="field"><label>ساعت شروع</label><input id="regStart" type="time" value="07:00"></div>
-  <div class="field"><label>ساعت پایان</label><input id="regEnd" type="time" value="15:00"></div>
-  <div class="field"><label>مدت استراحت (دقیقه)</label><input id="regBreak" type="number" min="0" value="0"></div>
-  <div class="field"><label>نرخ ساعتی (تومان)</label><input id="regRate" type="number" min="0"></div>
-  <div class="field"><label>مبلغ روزانه (تومان)</label><input id="regDaily" type="number" min="0" placeholder="در حالت روزانه"></div>
-  <div class="field"><label>اضافه‌کاری (ساعت)</label><input id="regOvertime" type="number" min="0" step=".25" value="0"></div>
-  <div class="field full"><label>توضیحات (اختیاری)</label><input id="regNote" placeholder="مثلاً جایگزینی شیفت همکار"></div>
- </div><div class="amount"><span>مبلغ قابل ثبت</span><strong id="regTotal">۰ تومان</strong><div class="hint" id="regCalcHint">مدت کار خالص: ۸ ساعت</div></div><div class="actions"><button class="btn primary" id="saveShift">ذخیره سابقه کاری</button><button class="btn soft" id="clearReg">پاک کردن فرم</button></div></div>
-</section>
-<section id="history" class="page hidden">
- <div class="panel"><div class="section-title"><h3>تاریخچه ساعت‌های کاری</h3><button class="btn soft" id="exportCsv">خروجی CSV</button></div><div class="fields"><div class="field"><label>جست‌وجو در تاریخ / توضیحات</label><input id="historySearch" placeholder="مثلاً آبان یا جمعه"></div><div class="field"><label>فیلتر ماه</label><input id="historyMonth" type="month"></div></div><div class="section" id="historyList"></div></div>
-</section>
-<section id="payments" class="page hidden">
- <div class="grid">
-  <div class="panel"><h3>ثبت پرداخت / علی‌الحساب</h3><div class="fields">
-   <div class="field"><label>تاریخ پرداخت</label><input id="payDate" type="date"></div>
-   <div class="field"><label>مبلغ (تومان)</label><input id="payAmount" type="number" min="1" placeholder="مثلاً ۵۰۰۰۰۰"></div>
-   <div class="field full"><label>توضیحات</label><input id="payNote" placeholder="مثلاً علی‌الحساب هفته اول"></div>
-  </div><div class="actions"><button class="btn primary" id="savePayment">ثبت پرداخت</button></div></div>
-  <div class="panel"><h3>خلاصه حساب</h3><div class="amount"><span>مجموع دستمزد ثبت‌شده</span><strong id="allEarned">۰</strong></div><div class="amount"><span>مجموع پرداختی</span><strong id="allPaid">۰</strong></div><div class="amount"><span>مانده حساب</span><strong id="allBalance">۰</strong></div></div>
- </div><div class="panel section"><h3>سوابق پرداخت</h3><div id="paymentList" class="list"></div></div>
-</section>
-<section id="settings" class="page hidden">
- <div class="grid">
-  <div class="panel"><h3>تنظیمات دستمزد و شیفت</h3><div class="fields">
-   <div class="field"><label>نام کارگر</label><input id="workerName" placeholder="نام شاگرد"></div>
-   <div class="field"><label>نام صاحبکار</label><input id="ownerName" placeholder="عمو پرویز"></div>
-   <div class="field"><label>ساعت شروع معمول</label><input id="defaultStart" type="time" value="07:00"></div>
-   <div class="field"><label>ساعت پایان معمول</label><input id="defaultEnd" type="time" value="22:00"></div>
-   <div class="field"><label>نرخ ساعتی پیش‌فرض (تومان)</label><input id="defaultRate" type="number" min="0" value="60000"></div>
-   <div class="field"><label>نرخ اضافه‌کاری (ضریب)</label><input id="overtimeMultiplier" type="number" min="1" step=".1" value="1.5"></div>
-   <div class="field"><label>سقف ساعت عادی روزانه</label><input id="normalHours" type="number" min="1" step=".5" value="8"></div>
-   <div class="field"><label>واحد پول</label><select disabled><option>تومان</option></select></div>
-  </div><div class="actions"><button class="btn primary" id="saveSettings">ذخیره تنظیمات</button></div></div>
-  <div class="panel"><h3>پشتیبان‌گیری و انتقال اطلاعات</h3><p class="hint">برای انتقال سوابق بین گوشی صاحبکار و کارگر، از خروجی پشتیبان استفاده کنید و فایل را در گوشی دیگر بازیابی کنید.</p><div class="actions"><button class="btn success" id="backupBtn">دانلود نسخه پشتیبان</button><label class="btn soft" for="restoreFile">بازیابی فایل پشتیبان</label><input id="restoreFile" type="file" accept="application/json" class="hidden"></div><div class="notice">اطلاعات این نسخه روی همان گوشی ذخیره می‌شود. همگام‌سازی خودکار بین دو گوشی نیازمند راه‌اندازی فضای ابری و حساب کاربری است؛ در این نسخه انتقال اطلاعات با فایل پشتیبان انجام می‌شود.</div><h3>نصب برنامه</h3><p class="hint">از منوی مرورگر گزینه «افزودن به صفحه اصلی» یا «Install app» را بزنید تا مثل اپلیکیشن نصب شود.</p><div class="actions"><button class="btn soft" id="installBtn">نصب برنامه</button></div></div>
- </div>
-</section>
-</main><div class="footer">ساخته‌شده برای سوپرمارکت عمو پرویز · نسخه ۱.۰</div>
+<header><div><h1>⏱ <span id="storeTitle">سامانه مدیریت ساعت کاری</span></h1><p>مدیریت شیفت، دستمزد، پرداختی و پاداش</p></div><div id="today"></div></header>
+<main class="wrap">
+<div class="card welcome" id="welcomeCard">
+  <h2 id="welcomeTitle">خوش آمدید 🌤️</h2>
+  <p id="welcomeQuote" class="quote">هر روز فرصتی تازه برای بهتر ساختن است.</p>
+  <p id="welcomeDate" class="subline"></p>
+  <div class="actions no-print" style="position:relative;z-index:1">
+    <label class="subline" for="roleView">نمایش خوشامدگویی:</label>
+    <select id="roleView" aria-label="نوع خوشامدگویی" style="border:0;border-radius:10px;padding:8px;background:#fff;color:#176b9e">
+      <option value="manager">مدیر</option><option value="staff">پرسنل</option>
+    </select>
+    <input id="welcomePerson" placeholder="نام مدیر یا پرسنل" maxlength="40" aria-label="نام شخص" style="max-width:190px;border:0;border-radius:10px;padding:8px">
+    <button type="button" class="secondary" id="saveWelcome">ذخیره</button>
+  </div>
 </div>
-<nav class="bottomnav" id="bottomnav"><button class="active" data-page="dashboard"><span>⌂</span>خانه</button><button data-page="register"><span>＋</span>ثبت کار</button><button data-page="history"><span>▤</span>سوابق</button><button data-page="payments"><span>﷼</span>پرداخت</button><button data-page="settings"><span>⚙</span>تنظیمات</button></nav>
-<div id="modalRoot"></div>
-<script src="app.js"></script>
-</body></html>
+<div class="notice">اطلاعات این نسخه روی همین گوشی و همین مرورگر ذخیره می‌شود. انتخاب مدیر/پرسنل فقط متن خوشامدگویی را تغییر می‌دهد و ورود امن یا محدودسازی واقعی دسترسی نیست؛ برای استفاده چندنفره و همگام‌سازی باید بعداً حساب کاربری و پایگاه داده آنلاین اضافه شود.</div>
+<nav class="tabs no-print">
+<button class="active" data-tab="dashboard">داشبورد</button><button data-tab="shift">ثبت شیفت</button><button data-tab="history">تاریخچه</button><button data-tab="payments">پرداخت‌ها</button><button data-tab="bonuses">پاداش پرسنل</button><button data-tab="settings">تنظیمات</button><button data-tab="backup">پشتیبان‌گیری</button>
+</nav>
+<section id="dashboard" class="panel">
+<div class="grid">
+<div class="card stat"><small>ساعات ثبت‌شده</small><strong id="totalHours">۰</strong></div>
+<div class="card stat"><small>دستمزد محاسبه‌شده</small><strong id="totalWage">۰ تومان</strong></div>
+<div class="card stat"><small>مجموع پرداختی</small><strong id="totalPaid">۰ تومان</strong></div>
+<div class="card stat"><small>مانده حساب</small><strong id="balance">۰ تومان</strong></div>
+</div>
+<div class="card"><h2 class="section-title">آخرین شیفت‌ها</h2><div id="recent"></div></div>
+<div class="card"><h2 class="section-title">وضعیت امروز</h2><p id="todayStatus" class="muted">برای امروز هنوز شیفتی ثبت نشده است.</p><div class="actions no-print"><button onclick="showTab('shift')">＋ ثبت شیفت جدید</button><button class="secondary" onclick="showTab('history')">مشاهده همه سوابق</button></div></div>
+</section>
+<section id="shift" class="panel hidden">
+<div class="card"><h2 class="section-title">ثبت ساعت کاری</h2>
+<form id="shiftForm">
+<input type="hidden" id="editId">
+<div class="row">
+<div class="field"><label for="shiftDate">تاریخ شیفت</label><input id="shiftDate" type="date" required><small id="jalaliPreview" class="muted"></small></div>
+<div class="field"><label for="start">ساعت شروع</label><input id="start" type="time" required></div>
+<div class="field"><label for="end">ساعت پایان</label><input id="end" type="time" required></div>
+<div class="field"><label for="breakMin">مدت استراحت (دقیقه)</label><input id="breakMin" type="number" min="0" value="0"></div>
+</div>
+<div class="field"><label for="note">توضیحات (اختیاری)</label><input id="note" maxlength="160" placeholder="مثلاً شیفت شلوغ یا تعطیل‌کاری"></div>
+<div id="shiftPreview" class="result-box hidden" aria-live="polite"></div>
+<div class="actions"><button type="submit" id="saveShift">ذخیره شیفت</button><button type="button" class="secondary" id="clearShift">پاک کردن فرم</button></div>
+</form></div>
+<div class="card"><p class="muted">اگر ساعت پایان از ساعت شروع کمتر باشد، برنامه آن را شیفتی در نظر می‌گیرد که از نیمه‌شب عبور کرده است.</p></div>
+</section>
+<section id="history" class="panel hidden"><div class="card"><h2 class="section-title">تاریخچه شیفت‌ها</h2><div class="row no-print"><div class="field"><label>از تاریخ</label><input id="fromDate" type="date"></div><div class="field"><label>تا تاریخ</label><input id="toDate" type="date"></div><div class="field" style="align-self:end"><button id="filterHistory">اعمال فیلتر</button></div></div><div class="table-wrap" id="historyTable"></div><div class="actions no-print"><button class="secondary" id="csvBtn">خروجی CSV</button><button class="secondary" onclick="window.print()">چاپ / ذخیره PDF</button></div></div></section>
+<section id="payments" class="panel hidden"><div class="card"><h2 class="section-title">ثبت پرداخت یا مساعده</h2><form id="paymentForm"><div class="row"><div class="field"><label>تاریخ</label><input id="payDate" type="date" required></div><div class="field"><label>مبلغ (تومان)</label><input id="payAmount" type="number" min="1" required></div><div class="field"><label>نوع</label><select id="payType"><option value="payment">پرداخت دستمزد</option><option value="advance">مساعده</option></select></div></div><div class="field"><label>توضیحات</label><input id="payNote" maxlength="160" placeholder="اختیاری"></div><button type="submit">ثبت پرداخت</button></form></div><div class="card"><h2 class="section-title">سوابق پرداخت</h2><div id="paymentTable"></div></div></section>
+<section id="bonuses" class="panel hidden">
+<div class="card"><h2 class="section-title">ثبت پاداش جدید 🎁</h2>
+<form id="bonusForm"><div class="row">
+<div class="field"><label for="bonusPerson">نام پرسنل</label><input id="bonusPerson" maxlength="50" placeholder="نام پرسنل" required></div>
+<div class="field"><label for="bonusAmount">مبلغ پاداش (تومان)</label><input id="bonusAmount" type="number" min="1" required></div>
+</div><div class="field"><label for="bonusReason">علت پاداش</label><input id="bonusReason" maxlength="160" placeholder="مثلاً عملکرد عالی یا تلاش بیشتر"></div>
+<button type="submit">ثبت پاداش در انتظار پرداخت</button></form>
+<p class="muted">ثبت پاداش به معنی پرداخت آن نیست؛ مدیر می‌تواند بعداً وضعیت آن را به «پرداخت شد» تغییر دهد.</p></div>
+<div class="card"><h2 class="section-title">سوابق پاداش</h2><div id="bonusTable"></div></div>
+</section>
+<section id="settings" class="panel hidden"><div class="card"><h2 class="section-title">تنظیمات فروشگاه و دستمزد</h2>
+<form id="storeForm"><div class="row">
+<div class="field"><label for="storeName">نام فروشگاه</label><input id="storeName" maxlength="60" placeholder="مثلاً سوپرمارکت بهار" required></div>
+<div class="field"><label for="managerName">نام مدیر</label><input id="managerName" maxlength="50" placeholder="نام مدیر"></div>
+</div><button type="submit">ذخیره مشخصات فروشگاه</button></form><hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+<h2 class="section-title">تنظیمات دستمزد</h2><form id="settingsForm"><div class="row"><div class="field"><label>روش محاسبه</label><select id="rateMode"><option value="hourly">ساعتی</option><option value="daily">روزانه</option></select></div><div class="field"><label>مبلغ پایه (تومان)</label><input id="rate" type="number" min="0" required></div><div class="field"><label>ساعت کاری عادی در روز</label><input id="normalHours" type="number" min="1" max="24" step=".5"></div><div class="field"><label>ضریب اضافه‌کاری</label><input id="overtime" type="number" min="1" max="5" step=".1"></div></div><button type="submit">ذخیره تنظیمات</button></form><p class="muted">در روش روزانه، مبلغ پایه برای یک روز تا سقف ساعت عادی محاسبه می‌شود؛ ساعات بیشتر با نرخ ساعتی معادل و ضریب اضافه‌کاری محاسبه می‌شود.</p></div></section>
+<section id="backup" class="panel hidden"><div class="card"><h2 class="section-title">پشتیبان‌گیری و بازیابی</h2><p class="muted">یک فایل JSON از شیفت‌ها، پرداخت‌ها و تنظیمات ذخیره کنید یا نسخه قبلی را بازیابی کنید.</p><div class="actions"><button id="backupBtn">دانلود نسخه پشتیبان</button><label class="secondary" style="padding:11px 15px;border-radius:12px;cursor:pointer">بازیابی فایل<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div></div><div class="card"><h2 class="section-title">پاک‌سازی اطلاعات</h2><button class="danger" id="resetBtn">حذف همه اطلاعات برنامه</button></div></section>
+</main><footer>سامانه مدیریت ساعت کاری · طراحی و توسعه <span class="brand-credit">AMIRHOSSEIN.MO</span><br>نسخه PWA · اطلاعات روی همین دستگاه ذخیره می‌شوند</footer>
+<script src="app.js"></script></body></html>

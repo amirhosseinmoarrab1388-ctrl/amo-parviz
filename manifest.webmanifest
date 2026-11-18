@@ -1,1 +1,1 @@
-{"name":"ساعت‌کار عمو پرویز","short_name":"ساعت‌کار","start_url":"./","display":"standalone","background_color":"#f4f9fd","theme_color":"#168bd2","lang":"fa","dir":"rtl","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{"name":"سامانه مدیریت ساعت کاری","short_name":"مدیریت ساعت‌کار","start_url":"./","display":"standalone","background_color":"#f4f9fd","theme_color":"#168bd2","lang":"fa","dir":"rtl","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}],"description":"مدیریت شیفت، دستمزد، پرداختی و پاداش پرسنل"}

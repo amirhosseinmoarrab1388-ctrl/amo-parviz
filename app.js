@@ -1,45 +1,92 @@
-const $=id=>document.getElementById(id), KEY='amoParvizDataV1';
-const fa=n=>new Intl.NumberFormat('fa-IR').format(Math.round(Number(n)||0));
-const money=n=>fa(n)+' تومان';
-const defaults={settings:{workerName:'',ownerName:'عمو پرویز',defaultStart:'07:00',defaultEnd:'22:00',defaultRate:60000,overtimeMultiplier:1.5,normalHours:8},shifts:[],payments:[]};
-let data=load(), deferredInstall=null;
-function load(){try{return {...structuredClone(defaults),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return structuredClone(defaults)}}
+const $=id=>document.getElementById(id);
+const KEY='amoParviz_v1';
+const defaults={shifts:[],payments:[],bonuses:[],settings:{mode:'hourly',rate:50000,normalHours:8,overtime:1.4,storeName:'',managerName:'',staffName:''},welcome:{role:'manager',person:''}};
+let data=load();
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return {...structuredClone(defaults),...v,shifts:Array.isArray(v.shifts)?v.shifts:[],payments:Array.isArray(v.payments)?v.payments:[],bonuses:Array.isArray(v.bonuses)?v.bonuses:[],settings:{...defaults.settings,...(v.settings||{})},welcome:{...defaults.welcome,...(v.welcome||{})}};}catch(e){return structuredClone(defaults)}}
 function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
-function todayISO(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-function jalali(iso){if(!iso)return '—';let [y,m,d]=iso.split('-').map(Number);let gdm=[0,31,((y%4===0&&y%100!==0)||y%400===0)?29:28,31,30,31,30,31,31,30,31,30,31];let gy=y-1600,gm=m-1,gd=d-1;let g_day_no=365*gy+Math.floor((gy+3)/4)-Math.floor((gy+99)/100)+Math.floor((gy+399)/400);for(let i=0;i<gm;i++)g_day_no+=gdm[i+1];g_day_no+=gd;let j_day_no=g_day_no-79;let j_np=Math.floor(j_day_no/12053);j_day_no%=12053;let jy=979+33*j_np+4*Math.floor(j_day_no/1461);j_day_no%=1461;if(j_day_no>=366){jy+=Math.floor((j_day_no-1)/365);j_day_no=(j_day_no-1)%365}let jm,jd;for(let i=0;i<11&&j_day_no>= (i<6?31:30);i++)j_day_no-=i<6?31:30,jm=i+2;jm=jm||1;jd=j_day_no+1;return `${fa(jy)}/${fa(jm).padStart(2,'۰')}/${fa(jd).padStart(2,'۰')}`}
-function monthKey(iso){return iso?.slice(0,7)||''}
-function duration(start,end,br=0){if(!start||!end)return 0;let [sh,sm]=start.split(':').map(Number),[eh,em]=end.split(':').map(Number);let a=sh*60+sm,b=eh*60+em;if(b<a)b+=1440;return Math.max(0,(b-a-Math.max(0,Number(br)||0))/60)}
-function calc({start,end,br,rate,mode,daily,overtime}){let hours=duration(start,end,br),ot=Math.max(0,Number(overtime)||0),base=Math.max(0,hours-ot);let mult=Number(data.settings.overtimeMultiplier)||1.5;let total=mode==='daily'?Number(daily||0):base*Number(rate||0)+ot*Number(rate||0)*mult;return {hours,ot,total:Math.round(total),base}}
-function shiftFromForm(prefix){let mode=$(prefix+'Mode').value,rate=Number($(prefix+'Rate')?.value||data.settings.defaultRate);return {date:$(prefix+'Date').value,start:$(prefix+'Start').value,end:$(prefix+'End').value,breakMinutes:Number($(prefix+'Break').value||0),rate,mode,daily:Number($(prefix+'Daily')?.value||0),overtime:Number($(prefix+'Overtime')?.value||0),note:$(prefix+'Note')?.value||''}}
-function updateCalc(prefix){let s=shiftFromForm(prefix),c=calc({start:s.start,end:s.end,br:s.breakMinutes,rate:s.rate,mode:s.mode,daily:s.daily,overtime:s.overtime});$(prefix==='quick'?'quickTotal':'regTotal').textContent=money(c.total);$(prefix==='quick'?'quickDuration':'regCalcHint').textContent=`مدت کار خالص: ${fa(c.hours.toFixed(2))} ساعت · اضافه‌کاری: ${fa(c.ot)} ساعت`}
-function totalEarned(list=data.shifts){return list.reduce((a,s)=>a+Number(s.total||0),0)}
-function totalPaid(list=data.payments){return list.reduce((a,p)=>a+Number(p.amount||0),0)}
-function monthStats(){let m=monthKey(todayISO()),sh=data.shifts.filter(s=>monthKey(s.date)===m);let earn=totalEarned(sh),paid=data.payments.filter(p=>monthKey(p.date)===m).reduce((a,p)=>a+p.amount,0);return {hours:sh.reduce((a,s)=>a+s.hours,0),earn,paid,due:earn-paid}}
-function render(){let st=monthStats();$('monthHours').textContent=fa(st.hours.toFixed(1));$('monthPay').textContent=fa(st.earn);$('monthDue').textContent=fa(st.due);$('allEarned').textContent=money(totalEarned());$('allPaid').textContent=money(totalPaid());$('allBalance').textContent=money(totalEarned()-totalPaid());$('todayLabel').textContent='امروز · '+jalali(todayISO());$('hello').textContent=`${data.settings.workerName?data.settings.workerName+'، ':''}خوش اومدی 👋`;
-let recent=[...data.shifts].sort((a,b)=>b.createdAt-a.createdAt).slice(0,4);$('recentList').innerHTML=recent.length?recent.map(s=>entryHtml(s)).join(''):'<div class="empty">هنوز سابقه‌ای ثبت نشده است.</div>';
-let q=($('historySearch')?.value||'').trim(),mo=$('historyMonth')?.value||'';let list=[...data.shifts].sort((a,b)=>b.date.localeCompare(a.date));if(mo)list=list.filter(s=>monthKey(s.date)===mo);if(q)list=list.filter(s=>jalali(s.date).includes(q)||s.note?.includes(q)||s.date.includes(q));$('historyList').innerHTML=list.length?`<div class="table-wrap"><table><thead><tr><th>تاریخ</th><th>ساعت</th><th>مدت خالص</th><th>مبلغ</th><th>عملیات</th></tr></thead><tbody>${list.map(s=>`<tr><td>${jalali(s.date)}</td><td>${s.start} تا ${s.end}</td><td>${fa(s.hours.toFixed(2))} ساعت</td><td><b>${fa(s.total)}</b></td><td><button class="btn danger" onclick="deleteShift('${s.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">موردی پیدا نشد.</div>';
-$('paymentList').innerHTML=data.payments.length?[...data.payments].sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`<div class="entry"><div><b>${jalali(p.date)}</b><small>${escapeHtml(p.note||'پرداخت ثبت‌شده')}</small></div><div class="money">${money(p.amount)} <button class="btn danger" onclick="deletePayment('${p.id}')">حذف</button></div></div>`).join(''):'<div class="empty">پرداختی ثبت نشده است.</div>';
+function digits(n){return Number(n||0).toLocaleString('fa-IR')}
+function money(n){return digits(Math.round(n))+' تومان'}
+function jalali(iso){if(!iso)return '—';const [y,m,d]=iso.split('-').map(Number);return new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'long',day:'numeric'}).format(new Date(y,m-1,d,12))}
+function todayISO(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function mins(t){const [h,m]=t.split(':').map(Number);return h*60+m}
+function shiftCalc(s){let duration=mins(s.end)-mins(s.start);if(duration<0)duration+=1440;duration=Math.max(0,duration-(+s.breakMin||0));const hours=duration/60, normal=+data.settings.normalHours||8, rate=+data.settings.rate||0;let wage;if(data.settings.mode==='daily'){const base=rate*Math.min(hours,normal)/normal;wage=base+Math.max(0,hours-normal)*(rate/normal)*(+data.settings.overtime||1)}else{wage=Math.min(hours,normal)*rate+Math.max(0,hours-normal)*rate*(+data.settings.overtime||1)}return {hours,wage,minutes:duration}}
+function totals(){let hours=0,wage=0;data.shifts.forEach(s=>{const c=shiftCalc(s);hours+=c.hours;wage+=c.wage});const paid=data.payments.reduce((a,p)=>a+(+p.amount||0),0);return {hours,wage,paid,balance:wage-paid}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showTab(name){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('hidden',p.id!==name));document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));if(name==='history')renderHistory();if(name==='payments')renderPayments();if(name==='bonuses')renderBonuses();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function rowShift(s){const c=shiftCalc(s);return `<tr><td>${jalali(s.date)}</td><td>${esc(s.start)} تا ${esc(s.end)}</td><td>${digits(c.hours.toFixed(2))}</td><td>${money(c.wage)}</td><td>${esc(s.note||'—')}</td><td class="no-print"><button class="ghost" onclick="editShift('${s.id}')">ویرایش</button><button class="ghost negative" onclick="deleteShift('${s.id}')">حذف</button></td></tr>`}
+function tableShifts(arr){if(!arr.length)return '<div class="empty">هنوز شیفتی ثبت نشده است.</div>';return `<table><thead><tr><th>تاریخ شمسی</th><th>ساعت</th><th>کارکرد</th><th>دستمزد</th><th>توضیحات</th><th class="no-print">عملیات</th></tr></thead><tbody>${arr.map(rowShift).join('')}</tbody></table>`}
+function renderHistory(){let arr=[...data.shifts].sort((a,b)=>b.date.localeCompare(a.date));const f=$('fromDate')?.value,t=$('toDate')?.value;if(f)arr=arr.filter(x=>x.date>=f);if(t)arr=arr.filter(x=>x.date<=t);$('historyTable').innerHTML=tableShifts(arr)}
+function renderPayments(){if(!data.payments.length){$('paymentTable').innerHTML='<div class="empty">پرداختی ثبت نشده است.</div>';return}$('paymentTable').innerHTML=`<div class="table-wrap"><table><thead><tr><th>تاریخ شمسی</th><th>نوع</th><th>مبلغ</th><th>توضیحات</th><th class="no-print">عملیات</th></tr></thead><tbody>${[...data.payments].sort((a,b)=>b.date.localeCompare(a.date)).map(p=>`<tr><td>${jalali(p.date)}</td><td>${p.type==='advance'?'مساعده':'پرداخت دستمزد'}</td><td>${money(p.amount)}</td><td>${esc(p.note||'—')}</td><td class="no-print"><button class="ghost negative" onclick="deletePayment('${p.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`}
+
+const dailyQuotes=[
+"کار بزرگ، از قدم‌های کوچک و پیوسته ساخته می‌شود.",
+"امروز را بهتر از دیروز بساز؛ همین یعنی پیشرفت.",
+"صداقت در کار، سرمایه‌ای است که هرگز کم نمی‌شود.",
+"موفقیت سهم کسانی است که با نظم ادامه می‌دهند.",
+"هر مشتری راضی، نشانه یک کار درست و باارزش است.",
+"با احترام کار کن؛ احترام، بهترین نتیجه را برمی‌گرداند.",
+"تلاش پنهان امروز، نتیجه درخشان فرداست.",
+"کیفیت یعنی وقتی کسی نگاه نمی‌کند هم درست کار کنی.",
+"صبوری و پشتکار، راه‌های سخت را هموار می‌کند.",
+"یک روز خوب را با یک تصمیم درست شروع کن."
+];
+function renderWelcome(){
+ const role=$('roleView')?.value||data.welcome.role||'manager';
+ const person=($('welcomePerson')?.value||data.welcome.person||'').trim();
+ const name=person?` ${esc(person)}`:'';
+ $('welcomeTitle').textContent=role==='staff'?`خوش آمدی${name} عزیز 🌟`:`خوش آمدید${name} عزیز 🌤️`;
+ const now=new Date(),day=Math.floor(Date.UTC(now.getFullYear(),now.getMonth(),now.getDate())/86400000);
+ $('welcomeQuote').textContent='«'+dailyQuotes[((day%dailyQuotes.length)+dailyQuotes.length)%dailyQuotes.length]+'»';
+ $('welcomeDate').textContent='امروز: '+jalali(todayISO())+' · '+(role==='staff'?'روز کاری پربرکتی داشته باشی':'روز پربازدهی برای مدیریت آرزو می‌کنیم');
 }
-function entryHtml(s){return `<div class="entry"><div><b>${jalali(s.date)}</b><small>${s.start} تا ${s.end} · ${fa(s.hours.toFixed(2))} ساعت خالص</small></div><div class="money">${money(s.total)}</div></div>`}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function showPage(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==page));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'})}
-document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));$('goRegister').onclick=()=>showPage('register');
-function initForm(){['quick','reg'].forEach(p=>{$(p+'Date').value=todayISO();$(p+'Rate').value=data.settings.defaultRate;$(p+'Start').value=data.settings.defaultStart;$(p+'End').value=data.settings.defaultEnd;});$('quickDate').value=todayISO();$('payDate').value=todayISO();$('regDate').value=todayISO()}
-function saveShift(s){if(!s.date||!s.start||!s.end){alert('لطفاً تاریخ و ساعت شروع و پایان را وارد کن.');return}let c=calc({start:s.start,end:s.end,br:s.breakMinutes,rate:s.rate,mode:s.mode,daily:s.daily,overtime:s.overtime});if(c.hours<=0){alert('مدت کار معتبر نیست.');return}if(s.mode==='hourly'&&s.rate<=0||s.mode==='daily'&&s.daily<=0){alert('مبلغ دستمزد را درست وارد کن.');return}data.shifts.push({id:crypto.randomUUID(),...s,hours:c.hours,total:c.total,createdAt:Date.now()});save();alert('ساعت کاری با موفقیت ثبت شد.');showPage('history')}
-$('quickSave').onclick=()=>saveShift(shiftFromForm('quick'));$('saveShift').onclick=()=>saveShift(shiftFromForm('reg'));
-['quick','reg'].forEach(p=>['Date','Start','End','Break','Rate','Mode','Daily','Overtime'].forEach(k=>$(p+k)?.addEventListener('input',()=>updateCalc(p))));
-$('clearReg').onclick=()=>{['regNote','regDaily','regOvertime'].forEach(id=>$(id).value='');$('regBreak').value=0;updateCalc('reg')};
-$('historySearch').oninput=render;$('historyMonth').onchange=render;
-window.deleteShift=id=>{if(confirm('این سابقه حذف شود؟')){data.shifts=data.shifts.filter(s=>s.id!==id);save()}};
+function renderBonuses(){
+ const box=$('bonusTable');if(!box)return;
+ if(!data.bonuses.length){box.innerHTML='<div class="empty">هنوز پاداشی ثبت نشده است.</div>';return;}
+ box.innerHTML=`<div class="table-wrap"><table><thead><tr><th>تاریخ ثبت</th><th>پرسنل</th><th>مبلغ</th><th>علت</th><th>وضعیت</th><th class="no-print">عملیات</th></tr></thead><tbody>${[...data.bonuses].sort((a,b)=>b.date.localeCompare(a.date)).map(b=>`<tr><td>${jalali(b.date)}</td><td>${esc(b.person)}</td><td>${money(b.amount)}</td><td>${esc(b.reason||'—')}</td><td><span class="pill ${b.status==='paid'?'badge-paid':'badge-pending'}">${b.status==='paid'?'پرداخت شد':'در انتظار پرداخت'}</span>${b.paidDate?`<small class="muted"> · ${jalali(b.paidDate)}</small>`:''}</td><td class="no-print">${b.status==='pending'?`<button class="secondary" onclick="markBonusPaid('${b.id}')">ثبت پرداخت</button>`:''} <button class="ghost negative" onclick="deleteBonus('${b.id}')">حذف</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+window.markBonusPaid=id=>{const b=data.bonuses.find(x=>x.id===id);if(!b||b.status==='paid')return;if(confirm('این پاداش به‌عنوان پرداخت‌شده ثبت شود؟')){b.status='paid';b.paidDate=todayISO();save();renderBonuses();}};
+window.deleteBonus=id=>{if(confirm('این پاداش حذف شود؟')){data.bonuses=data.bonuses.filter(x=>x.id!==id);save();renderBonuses();}};
+
+function render(){const t=totals();$('totalHours').textContent=digits(t.hours.toFixed(2))+' ساعت';$('totalWage').textContent=money(t.wage);$('totalPaid').textContent=money(t.paid);$('balance').textContent=money(t.balance);$('balance').className=t.balance>=0?'positive':'negative';$('recent').innerHTML=tableShifts([...data.shifts].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5));const today=data.shifts.filter(s=>s.date===todayISO());$('todayStatus').textContent=today.length?`امروز ${digits(today.length)} شیفت ثبت شده؛ مجموع کارکرد ${digits(today.reduce((a,s)=>a+shiftCalc(s).hours,0).toFixed(2))} ساعت.`:'برای امروز هنوز شیفتی ثبت نشده است.';renderPayments();renderBonuses();$('storeTitle').textContent=data.settings.storeName||'سامانه مدیریت ساعت کاری';renderWelcome()}
+function resetShiftForm(){$('shiftForm').reset();$('editId').value='';$('shiftDate').value=todayISO();$('breakMin').value=0;$('shiftPreview').classList.add('hidden');$('saveShift').textContent='ذخیره شیفت';previewDate()}
+function previewDate(){$('jalaliPreview').textContent='تاریخ شمسی: '+jalali($('shiftDate').value)}
+$('shiftDate').addEventListener('change',previewDate);$('clearShift').addEventListener('click',resetShiftForm);
+$('shiftForm').addEventListener('submit',e=>{e.preventDefault();const s={id:$('editId').value||crypto.randomUUID(),date:$('shiftDate').value,start:$('start').value,end:$('end').value,breakMin:+$('breakMin').value||0,note:$('note').value.trim()};if(!s.date||!s.start||!s.end){alert('لطفاً تاریخ و ساعت شروع و پایان را وارد کنید.');return}let duration=mins(s.end)-mins(s.start);if(duration<0)duration+=1440;if(s.breakMin>=duration){alert('مدت استراحت باید از کل مدت شیفت کمتر باشد.');return}const idx=data.shifts.findIndex(x=>x.id===s.id);if(idx>=0)data.shifts[idx]=s;else data.shifts.push(s);save();resetShiftForm();showTab('history')});
+window.editShift=id=>{const s=data.shifts.find(x=>x.id===id);if(!s)return;$('editId').value=s.id;$('shiftDate').value=s.date;$('start').value=s.start;$('end').value=s.end;$('breakMin').value=s.breakMin;$('note').value=s.note||'';$('saveShift').textContent='ذخیره تغییرات';previewDate();showTab('shift')};
+window.deleteShift=id=>{if(confirm('این شیفت حذف شود؟')){data.shifts=data.shifts.filter(s=>s.id!==id);save();renderHistory()}};
+$('filterHistory').addEventListener('click',renderHistory);
+$('paymentForm').addEventListener('submit',e=>{e.preventDefault();const p={id:crypto.randomUUID(),date:$('payDate').value,amount:+$('payAmount').value,type:$('payType').value,note:$('payNote').value.trim()};if(!p.date||p.amount<=0){alert('تاریخ و مبلغ معتبر وارد کنید.');return}data.payments.push(p);save();$('paymentForm').reset();$('payDate').value=todayISO()});
 window.deletePayment=id=>{if(confirm('این پرداخت حذف شود؟')){data.payments=data.payments.filter(p=>p.id!==id);save()}};
-$('savePayment').onclick=()=>{let amount=Number($('payAmount').value);if(!amount||amount<1){alert('مبلغ پرداخت را وارد کن.');return}data.payments.push({id:crypto.randomUUID(),date:$('payDate').value||todayISO(),amount,note:$('payNote').value,createdAt:Date.now()});$('payAmount').value='';$('payNote').value='';save();alert('پرداخت ثبت شد.')};
-$('saveSettings').onclick=()=>{['workerName','ownerName','defaultStart','defaultEnd','defaultRate','overtimeMultiplier','normalHours'].forEach(k=>{let el=$(k);data.settings[k]=['defaultRate','overtimeMultiplier','normalHours'].includes(k)?Number(el.value):el.value});save();alert('تنظیمات ذخیره شد.')};
-function fillSettings(){Object.entries(data.settings).forEach(([k,v])=>{if($(k))$(k).value=v});$('quickRate').value=data.settings.defaultRate;$('regRate').value=data.settings.defaultRate}
-function backup(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='amo-parviz-backup-'+todayISO()+'.json';a.click();URL.revokeObjectURL(a.href)}
-$('backupBtn').onclick=backup;$('restoreFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let x=JSON.parse(await f.text());if(!x.settings||!Array.isArray(x.shifts)||!Array.isArray(x.payments))throw Error();if(confirm('اطلاعات فعلی با فایل پشتیبان جایگزین شود؟')){data=x;save();fillSettings();alert('بازیابی انجام شد.')}}catch{alert('فایل پشتیبان معتبر نیست.')}e.target.value=''};
-$('exportCsv').onclick=()=>{let rows=[['تاریخ شمسی','تاریخ میلادی','شروع','پایان','استراحت دقیقه','ساعت خالص','نرخ','اضافه کاری','مبلغ تومان','توضیحات'],...data.shifts.map(s=>[jalali(s.date),s.date,s.start,s.end,s.breakMinutes,s.hours,s.rate,s.overtime,s.total,s.note||''])];let csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='amo-parviz-work-history.csv';a.click();URL.revokeObjectURL(a.href)};
-$('roleBtn').onclick=()=>{let isWorker=$('roleBtn').dataset.mode==='worker';$('roleBtn').dataset.mode=isWorker?'manager':'worker';$('roleBtn').textContent=isWorker?'پنل مدیریت ▾':'پنل کارگر ▾';$('hello').textContent=isWorker?'پنل کارگر فعال است 👋':'پنل مدیریت فعال است 👋';alert('این نسخه نمایشی، تفکیک ظاهری پنل‌ها را دارد؛ ورود امن و دسترسی جداگانه پس از راه‌اندازی همگام‌سازی ابری اضافه می‌شود.')};
-$('installBtn').onclick=async()=>{if(deferredInstall){deferredInstall.prompt();deferredInstall=null}else alert('از منوی مرورگر گزینه «افزودن به صفحه اصلی» را انتخاب کن.')};
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e});
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-initForm();fillSettings();updateCalc('quick');updateCalc('reg');render();
+$('settingsForm').addEventListener('submit',e=>{e.preventDefault();data.settings={...data.settings,mode:$('rateMode').value,rate:+$('rate').value,normalHours:+$('normalHours').value,overtime:+$('overtime').value};save();alert('تنظیمات ذخیره شد.')});
+$('rateMode').value=data.settings.mode;$('rate').value=data.settings.rate;$('normalHours').value=data.settings.normalHours;$('overtime').value=data.settings.overtime;
+function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+$('backupBtn').addEventListener('click',()=>download('amo-parviz-backup.json',JSON.stringify(data,null,2),'application/json'));
+$('restoreFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const v=JSON.parse(await f.text());if(!Array.isArray(v.shifts)||!Array.isArray(v.payments)||!v.settings)throw Error();if(!Array.isArray(v.bonuses))v.bonuses=[];v.settings={...defaults.settings,...v.settings};v.welcome={...defaults.welcome,...(v.welcome||{})};if(confirm('اطلاعات فعلی با اطلاعات فایل جایگزین شود؟')){data=v;save();$('rateMode').value=data.settings.mode;$('rate').value=data.settings.rate;$('normalHours').value=data.settings.normalHours;$('overtime').value=data.settings.overtime;alert('بازیابی انجام شد.')}}catch(err){alert('فایل پشتیبان معتبر نیست.')}e.target.value=''});
+$('resetBtn').addEventListener('click',()=>{if(confirm('همه شیفت‌ها، پرداخت‌ها و تنظیمات حذف شوند؟')){data=structuredClone(defaults);save();$('storeName').value='';$('managerName').value='';$('roleView').value='manager';$('welcomePerson').value='';$('rateMode').value=data.settings.mode;$('rate').value=data.settings.rate;$('normalHours').value=data.settings.normalHours;$('overtime').value=data.settings.overtime}});
+$('csvBtn').addEventListener('click',()=>{const rows=[['تاریخ شمسی','تاریخ میلادی','شروع','پایان','ساعت کار','دستمزد','توضیحات'],...data.shifts.map(s=>{const c=shiftCalc(s);return [jalali(s.date),s.date,s.start,s.end,c.hours.toFixed(2),Math.round(c.wage),s.note||'']})];const csv='\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');download('shift-history.csv',csv,'text/csv;charset=utf-8')});
+
+$('bonusForm').addEventListener('submit',e=>{e.preventDefault();const b={id:crypto.randomUUID(),date:todayISO(),person:$('bonusPerson').value.trim(),amount:+$('bonusAmount').value,reason:$('bonusReason').value.trim(),status:'pending',paidDate:''};if(!b.person||b.amount<=0){alert('نام پرسنل و مبلغ معتبر وارد کنید.');return}data.bonuses.push(b);save();$('bonusForm').reset();renderBonuses();});
+$('storeForm').addEventListener('submit',e=>{e.preventDefault();data.settings.storeName=$('storeName').value.trim();data.settings.managerName=$('managerName').value.trim();save();alert('مشخصات فروشگاه ذخیره شد.');});
+$('saveWelcome').addEventListener('click',()=>{data.welcome={role:$('roleView').value,person:$('welcomePerson').value.trim()};save();renderWelcome();});
+$('roleView').addEventListener('change',()=>{data.welcome.role=$('roleView').value;renderWelcome();});
+$('welcomePerson').addEventListener('input',renderWelcome);
+function updateShiftPreview(){
+ const start=$('start').value,end=$('end').value,box=$('shiftPreview');
+ if(!start||!end){box.classList.add('hidden');return}
+ let duration=mins(end)-mins(start);if(duration<0)duration+=1440;
+ duration=Math.max(0,duration-(+$('breakMin').value||0));
+ const hours=duration/60,normal=+data.settings.normalHours||8,rate=+data.settings.rate||0;
+ let wage=data.settings.mode==='daily'?(rate*Math.min(hours,normal)/normal+Math.max(0,hours-normal)*(rate/normal)*(+data.settings.overtime||1)):(Math.min(hours,normal)*rate+Math.max(0,hours-normal)*rate*(+data.settings.overtime||1));
+ box.classList.remove('hidden');
+ box.innerHTML=`<div class="muted">خلاصه محاسبه شیفت</div><p style="margin:8px 0">از <b>${esc(start)}</b> تا <b>${esc(end)}</b></p><div>مدت کارکرد: <b>${digits((duration/60).toFixed(2))} ساعت</b></div><div style="margin-top:8px">مبلغ قابل دریافت: <strong>${money(wage)}</strong></div><small class="muted">پس از کسر ${digits(+$('breakMin').value||0)} دقیقه استراحت</small>`;
+}
+['start','end','breakMin'].forEach(id=>$(id).addEventListener('input',updateShiftPreview));
+$('storeName').value=data.settings.storeName||'';
+$('managerName').value=data.settings.managerName||'';
+$('roleView').value=data.welcome.role||'manager';
+$('welcomePerson').value=data.welcome.person||'';
+$('bonusPerson').value=data.settings.staffName||'';
+
+$('today').textContent='امروز: '+jalali(todayISO());$('payDate').value=todayISO();resetShiftForm();render();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
