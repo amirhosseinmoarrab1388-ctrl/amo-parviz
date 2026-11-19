@@ -1,80 +1,82 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" data-theme="light">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#168bd2"><title>سامانه مدیریت ساعت کاری</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e7fc4" id="tc"><title>سامانه مدیریت ساعت کاری</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
 <style>
-:root{--blue:#168bd2;--sky:#eaf6ff;--ink:#173247;--muted:#6b8191;--line:#dceaf3;--white:#fff;--green:#16865c;--red:#c94b55;--shadow:0 8px 28px #14577d12;--shadow-hover:0 14px 34px #14577d20}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0%,#e5f5ff 0,transparent 28%),#f4f9fd;color:var(--ink);font-family:Tahoma,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,#168bd2,#39aeea);color:#fff;font-weight:700;box-shadow:0 5px 14px #168bd226;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}button:hover{transform:translateY(-2px);box-shadow:0 9px 20px #168bd233;filter:saturate(1.08)}button:active{transform:translateY(0) scale(.97);box-shadow:0 2px 7px #168bd220}button.secondary{background:#e7f3fb;color:#176b9e;box-shadow:none}button.danger{background:#fff0f0;color:var(--red);box-shadow:none}button.ghost{background:transparent;color:var(--blue);padding:8px;box-shadow:none}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
-header{background:linear-gradient(120deg,#0878bd,#43b4ed);color:white;padding:22px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;box-shadow:0 10px 30px #0878bd24}header h1{letter-spacing:-.4px}header h1{font-size:22px;margin:0 0 6px}header p{margin:0;color:#e4f5ff;font-size:13px}.wrap{max-width:1100px;margin:22px auto;padding:0 16px}.tabs{display:flex;gap:8px;overflow:auto;padding:5px 0 14px}.tabs button{white-space:nowrap;background:#e5f2fa;color:#39718f}.tabs button.active{background:var(--blue);color:white}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);margin-bottom:14px;transition:transform .25s ease,box-shadow .25s ease}.card:hover{box-shadow:var(--shadow-hover)}.stat small{color:var(--muted)}.stat strong{display:block;font-size:23px;margin-top:9px}.section-title{font-size:18px;margin:4px 0 16px}.row{display:flex;gap:12px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:7px;flex:1;min-width:145px;margin-bottom:13px}.field label{font-size:13px;color:#547084}.field input,.field select{width:100%;padding:12px;border:1px solid #cfe0eb;border-radius:11px;background:#fff;color:var(--ink);min-height:44px}.field input:focus,.field select:focus{outline:2px solid #b9e3fa;border-color:var(--blue)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.muted{color:var(--muted);font-size:13px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:right;padding:12px;border-bottom:1px solid var(--line);font-size:13px}th{color:#557489;background:#f7fbfe}.pill{display:inline-block;border-radius:30px;padding:5px 9px;background:#e8f7ef;color:var(--green);font-size:12px}.empty{text-align:center;color:var(--muted);padding:25px}.hidden{display:none!important}.notice{background:#fff8e7;border:1px solid #f3e1b2;color:#80611b;padding:12px;border-radius:12px;font-size:13px;margin-bottom:14px}.positive{color:var(--green)}.negative{color:var(--red)}footer{text-align:center;color:#8298a8;font-size:12px;padding:24px}.welcome{position:relative;overflow:hidden;background:linear-gradient(120deg,#0b78b9,#4bb9ef);color:#fff;border:0;box-shadow:0 14px 34px #168bd226}.welcome:after{content:'✦';position:absolute;left:24px;top:2px;font-size:92px;opacity:.12;transform:rotate(15deg)}.welcome h2{margin:0 0 9px;font-size:21px}.welcome p{margin:5px 0;color:#eaf8ff;line-height:1.9}.quote{font-size:14px;font-weight:700;color:#fff}.subline{font-size:12px;color:#e5f6ff}.result-box{background:#eff9ff;border:1px solid #ccecff;border-radius:14px;padding:14px;margin-top:12px}.result-box strong{font-size:20px;color:#0878bd}.brand-credit{font-weight:700;letter-spacing:1px;color:#168bd2}.badge-pending{background:#fff4d8;color:#946200}.badge-paid{background:#e8f7ef;color:#16865c}.tab-content{animation:fadeUp .32s ease both}@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}header{padding:18px}.wrap{margin:14px auto}.card{padding:14px}.stat strong{font-size:19px}}
-@media print{header,.tabs,.no-print,footer{display:none!important}body{background:white}.card{box-shadow:none;break-inside:avoid}.wrap{max-width:none}}
+:root{--bg:#eef5fa;--card:#ffffffd9;--ink:#12283a;--mut:#667f91;--line:#d6e5ef;--p:#0e7fc4;--p2:#2fc4b2;--ok:#12a06a;--bad:#d9485a;--warn:#e8a317;--in:#fff;--sh:0 12px 32px #0b4a7414}
+[data-theme=dark]{--bg:#09131c;--card:#122130d9;--ink:#e5f1f9;--mut:#8ca5b7;--line:#223a4d;--in:#0d1b27;--sh:0 12px 32px #0007}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;background:radial-gradient(circle at 90% -5%,#2fc4b230,transparent 32%),radial-gradient(circle at 5% 0,#0e7fc430,transparent 30%),var(--bg);padding-bottom:84px}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 16px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;font-weight:700;transition:transform .15s,filter .2s}button:hover{filter:brightness(1.08)}button:active{transform:scale(.96)}
+button.s{background:#0e7fc41f;color:var(--p)}button.d{background:#d9485a1f;color:var(--bad)}button.g{background:none;color:var(--p);padding:6px 8px}button.ic{background:#ffffff26;padding:9px 12px}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(120deg,#075e96,#12a3b8);color:#fff;padding:14px max(16px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 8px 26px #075e9633}
+header h1{margin:0;font-size:19px}header p{margin:3px 0 0;font-size:12px;opacity:.85}.hr{display:flex;gap:8px}
+.wrap{max-width:1100px;margin:18px auto;padding:0 14px}.card{background:var(--card);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--sh);margin-bottom:14px}
+.tabs{position:fixed;bottom:0;inset-inline:0;z-index:20;display:flex;gap:2px;overflow:auto;background:var(--card);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.tabs button{flex:1;min-width:64px;background:none;color:var(--mut);font-size:11px;padding:6px 4px;border-radius:12px;box-shadow:none}.tabs button b{display:block;font-size:19px}.tabs button.on{background:#0e7fc41f;color:var(--p)}
+@media(min-width:900px){.tabs{position:static;border:1px solid var(--line);border-radius:18px;margin-bottom:14px}.tabs button{font-size:13px}.tabs button b{display:inline;font-size:15px}body{padding-bottom:20px}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+.stat{margin:0;position:relative;overflow:hidden}.stat small{color:var(--mut)}.stat strong{display:block;font-size:21px;margin-top:8px}.stat:before{content:attr(data-i);position:absolute;left:10px;top:4px;font-size:42px;opacity:.12}
+.welcome{background:linear-gradient(125deg,#075e96,#12a3b8);color:#fff;border:0}.welcome h2{margin:0 0 6px;font-size:21px}.welcome p{margin:4px 0;line-height:1.9;opacity:.92}
+h2.t{font-size:17px;margin:2px 0 14px}.row{display:flex;gap:12px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px;margin-bottom:12px}.field label{font-size:12px;color:var(--mut)}
+input,select{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--in)}input:focus,select:focus{outline:2px solid var(--p);outline-offset:1px}
+.jd{display:flex;gap:6px}.jd select{padding:10px 6px}.jd select:nth-child(2){flex:1.6}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.muted{color:var(--mut);font-size:13px}.hidden{display:none!important}.pos{color:var(--ok)}.neg{color:var(--bad)}
+.tw{overflow:auto}table{border-collapse:collapse;width:100%;min-width:640px}th,td{text-align:right;padding:11px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--mut);font-weight:600}
+.pill{display:inline-block;border-radius:30px;padding:3px 9px;font-size:11px;background:#12a06a22;color:var(--ok);margin:1px}.pill.w{background:#e8a31726;color:var(--warn)}.pill.b{background:#0e7fc41f;color:var(--p)}
+.empty{text-align:center;color:var(--mut);padding:24px}.box{background:#0e7fc414;border:1px dashed var(--p);border-radius:14px;padding:12px;margin:10px 0}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px}.bars div{flex:1;text-align:center;font-size:10px;color:var(--mut);height:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:4px}.bars i{display:block;border-radius:8px 8px 3px 3px;background:linear-gradient(var(--p2),var(--p));min-height:3px}
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at 70% 10%,#2fc4b255,transparent 40%),#06121c}.lg{width:100%;max-width:380px;text-align:center}.logo{font-size:46px}
+.timer{font-size:30px;font-weight:800;letter-spacing:1px;margin:6px 0}
+body[data-role=staff] .mgr,body[data-role=manager] .stf{display:none!important}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:16px}b.br{color:var(--p)}
+@media print{header,.tabs,.no-print,footer{display:none!important}body{background:#fff;color:#000}.card{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head>
-<body>
-<header><div><h1>⏱ <span id="storeTitle">سامانه مدیریت ساعت کاری</span></h1><p>مدیریت شیفت، دستمزد، پرداختی و پاداش</p></div><div id="today"></div></header>
+<body data-role="">
+<div id="login" class="ov"><div class="card lg"><div class="logo">⏱</div><h2 id="lgT">ورود</h2><p class="muted" id="lgP"></p>
+<div class="field" id="lgU"><label>کاربر</label><select id="loginUser"></select></div>
+<div class="field"><label id="lgL">رمز عبور</label><input id="loginPin" type="password" inputmode="numeric" maxlength="12" autocomplete="off"></div>
+<button id="loginBtn" style="width:100%">ورود</button><p class="neg" id="lgE"></p></div></div>
+
+<header><div><h1>⏱ <span id="storeTitle">سامانه مدیریت ساعت کاری</span></h1><p id="who"></p></div><div class="hr"><button class="ic" id="themeBtn" aria-label="تغییر تم">🌙</button><button class="ic" id="logoutBtn">خروج</button></div></header>
 <main class="wrap">
-<div class="card welcome" id="welcomeCard">
-  <h2 id="welcomeTitle">خوش آمدید 🌤️</h2>
-  <p id="welcomeQuote" class="quote">هر روز فرصتی تازه برای بهتر ساختن است.</p>
-  <p id="welcomeDate" class="subline"></p>
-  <div class="actions no-print" style="position:relative;z-index:1">
-    <label class="subline" for="roleView">نمایش خوشامدگویی:</label>
-    <select id="roleView" aria-label="نوع خوشامدگویی" style="border:0;border-radius:10px;padding:8px;background:#fff;color:#176b9e">
-      <option value="manager">مدیر</option><option value="staff">پرسنل</option>
-    </select>
-    <input id="welcomePerson" placeholder="نام مدیر یا پرسنل" maxlength="40" aria-label="نام شخص" style="max-width:190px;border:0;border-radius:10px;padding:8px">
-    <button type="button" class="secondary" id="saveWelcome">ذخیره</button>
-  </div>
-</div>
-<div class="notice">اطلاعات این نسخه روی همین گوشی و همین مرورگر ذخیره می‌شود. انتخاب مدیر/پرسنل فقط متن خوشامدگویی را تغییر می‌دهد و ورود امن یا محدودسازی واقعی دسترسی نیست؛ برای استفاده چندنفره و همگام‌سازی باید بعداً حساب کاربری و پایگاه داده آنلاین اضافه شود.</div>
+<div class="card welcome"><h2 id="wT"></h2><p id="wQ"></p><p id="wD" style="font-size:12px"></p></div>
 <nav class="tabs no-print">
-<button class="active" data-tab="dashboard">داشبورد</button><button data-tab="shift">ثبت شیفت</button><button data-tab="history">تاریخچه</button><button data-tab="payments">پرداخت‌ها</button><button data-tab="bonuses">پاداش پرسنل</button><button data-tab="settings">تنظیمات</button><button data-tab="backup">پشتیبان‌گیری</button>
+<button class="on" data-tab="dashboard"><b>📊</b>داشبورد</button><button data-tab="shift"><b>➕</b>ثبت شیفت</button><button data-tab="history"><b>🗂</b>تاریخچه</button><button data-tab="payments"><b>💵</b>پرداخت‌ها</button><button data-tab="bonuses"><b>🎁</b>پاداش</button><button class="mgr" data-tab="settings"><b>⚙️</b>تنظیمات</button><button class="mgr" data-tab="backup"><b>💾</b>پشتیبان</button>
 </nav>
+
 <section id="dashboard" class="panel">
-<div class="grid">
-<div class="card stat"><small>ساعات ثبت‌شده</small><strong id="totalHours">۰</strong></div>
-<div class="card stat"><small>دستمزد محاسبه‌شده</small><strong id="totalWage">۰ تومان</strong></div>
-<div class="card stat"><small>مجموع پرداختی</small><strong id="totalPaid">۰ تومان</strong></div>
-<div class="card stat"><small>مانده حساب</small><strong id="balance">۰ تومان</strong></div>
-</div>
-<div class="card"><h2 class="section-title">آخرین شیفت‌ها</h2><div id="recent"></div></div>
-<div class="card"><h2 class="section-title">وضعیت امروز</h2><p id="todayStatus" class="muted">برای امروز هنوز شیفتی ثبت نشده است.</p><div class="actions no-print"><button onclick="showTab('shift')">＋ ثبت شیفت جدید</button><button class="secondary" onclick="showTab('history')">مشاهده همه سوابق</button></div></div>
+<div class="field mgr"><label>نمایش آمار</label><select id="dashStaff"></select></div>
+<div class="grid"><div class="card stat" data-i="⏳"><small>ساعات کار</small><strong id="tH"></strong></div><div class="card stat" data-i="💰"><small>دستمزد</small><strong id="tW"></strong></div><div class="card stat" data-i="✅"><small>دریافت‌شده</small><strong id="tP"></strong></div><div class="card stat" data-i="⚖️"><small>مانده حساب</small><strong id="tB"></strong></div></div>
+<div class="card stf" style="margin-top:14px"><h2 class="t">تایمر شیفت</h2><div class="timer" id="tmr">۰۰:۰۰:۰۰</div><p class="muted" id="tmrN">با شروع تایمر، ساعت از روی ساعت دستگاه ثبت می‌شود.</p><button id="tmrBtn">▶ شروع شیفت</button></div>
+<div class="card" style="margin-top:14px"><h2 class="t">ساعت کار ۷ روز اخیر</h2><div class="bars" id="bars"></div></div>
+<div class="card"><h2 class="t">آخرین شیفت‌ها</h2><div id="recent"></div></div>
 </section>
-<section id="shift" class="panel hidden">
-<div class="card"><h2 class="section-title">ثبت ساعت کاری</h2>
-<form id="shiftForm">
-<input type="hidden" id="editId">
-<div class="row">
-<div class="field"><label for="shiftDate">تاریخ شیفت</label><input id="shiftDate" type="date" required><small id="jalaliPreview" class="muted"></small></div>
-<div class="field"><label for="start">ساعت شروع</label><input id="start" type="time" required></div>
-<div class="field"><label for="end">ساعت پایان</label><input id="end" type="time" required></div>
-<div class="field"><label for="breakMin">مدت استراحت (دقیقه)</label><input id="breakMin" type="number" min="0" value="0"></div>
-</div>
-<div class="field"><label for="note">توضیحات (اختیاری)</label><input id="note" maxlength="160" placeholder="مثلاً شیفت شلوغ یا تعطیل‌کاری"></div>
-<div id="shiftPreview" class="result-box hidden" aria-live="polite"></div>
-<div class="actions"><button type="submit" id="saveShift">ذخیره شیفت</button><button type="button" class="secondary" id="clearShift">پاک کردن فرم</button></div>
-</form></div>
-<div class="card"><p class="muted">اگر ساعت پایان از ساعت شروع کمتر باشد، برنامه آن را شیفتی در نظر می‌گیرد که از نیمه‌شب عبور کرده است.</p></div>
-</section>
-<section id="history" class="panel hidden"><div class="card"><h2 class="section-title">تاریخچه شیفت‌ها</h2><div class="row no-print"><div class="field"><label>از تاریخ</label><input id="fromDate" type="date"></div><div class="field"><label>تا تاریخ</label><input id="toDate" type="date"></div><div class="field" style="align-self:end"><button id="filterHistory">اعمال فیلتر</button></div></div><div class="table-wrap" id="historyTable"></div><div class="actions no-print"><button class="secondary" id="csvBtn">خروجی CSV</button><button class="secondary" onclick="window.print()">چاپ / ذخیره PDF</button></div></div></section>
-<section id="payments" class="panel hidden"><div class="card"><h2 class="section-title">ثبت پرداخت یا مساعده</h2><form id="paymentForm"><div class="row"><div class="field"><label>تاریخ</label><input id="payDate" type="date" required></div><div class="field"><label>مبلغ (تومان)</label><input id="payAmount" type="number" min="1" required></div><div class="field"><label>نوع</label><select id="payType"><option value="payment">پرداخت دستمزد</option><option value="advance">مساعده</option></select></div></div><div class="field"><label>توضیحات</label><input id="payNote" maxlength="160" placeholder="اختیاری"></div><button type="submit">ثبت پرداخت</button></form></div><div class="card"><h2 class="section-title">سوابق پرداخت</h2><div id="paymentTable"></div></div></section>
-<section id="bonuses" class="panel hidden">
-<div class="card"><h2 class="section-title">ثبت پاداش جدید 🎁</h2>
-<form id="bonusForm"><div class="row">
-<div class="field"><label for="bonusPerson">نام پرسنل</label><input id="bonusPerson" maxlength="50" placeholder="نام پرسنل" required></div>
-<div class="field"><label for="bonusAmount">مبلغ پاداش (تومان)</label><input id="bonusAmount" type="number" min="1" required></div>
-</div><div class="field"><label for="bonusReason">علت پاداش</label><input id="bonusReason" maxlength="160" placeholder="مثلاً عملکرد عالی یا تلاش بیشتر"></div>
-<button type="submit">ثبت پاداش در انتظار پرداخت</button></form>
-<p class="muted">ثبت پاداش به معنی پرداخت آن نیست؛ مدیر می‌تواند بعداً وضعیت آن را به «پرداخت شد» تغییر دهد.</p></div>
-<div class="card"><h2 class="section-title">سوابق پاداش</h2><div id="bonusTable"></div></div>
-</section>
-<section id="settings" class="panel hidden"><div class="card"><h2 class="section-title">تنظیمات فروشگاه و دستمزد</h2>
-<form id="storeForm"><div class="row">
-<div class="field"><label for="storeName">نام فروشگاه</label><input id="storeName" maxlength="60" placeholder="مثلاً سوپرمارکت بهار" required></div>
-<div class="field"><label for="managerName">نام مدیر</label><input id="managerName" maxlength="50" placeholder="نام مدیر"></div>
-</div><button type="submit">ذخیره مشخصات فروشگاه</button></form><hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-<h2 class="section-title">تنظیمات دستمزد</h2><form id="settingsForm"><div class="row"><div class="field"><label>روش محاسبه</label><select id="rateMode"><option value="hourly">ساعتی</option><option value="daily">روزانه</option></select></div><div class="field"><label>مبلغ پایه (تومان)</label><input id="rate" type="number" min="0" required></div><div class="field"><label>ساعت کاری عادی در روز</label><input id="normalHours" type="number" min="1" max="24" step=".5"></div><div class="field"><label>ضریب اضافه‌کاری</label><input id="overtime" type="number" min="1" max="5" step=".1"></div></div><button type="submit">ذخیره تنظیمات</button></form><p class="muted">در روش روزانه، مبلغ پایه برای یک روز تا سقف ساعت عادی محاسبه می‌شود؛ ساعات بیشتر با نرخ ساعتی معادل و ضریب اضافه‌کاری محاسبه می‌شود.</p></div></section>
-<section id="backup" class="panel hidden"><div class="card"><h2 class="section-title">پشتیبان‌گیری و بازیابی</h2><p class="muted">یک فایل JSON از شیفت‌ها، پرداخت‌ها و تنظیمات ذخیره کنید یا نسخه قبلی را بازیابی کنید.</p><div class="actions"><button id="backupBtn">دانلود نسخه پشتیبان</button><label class="secondary" style="padding:11px 15px;border-radius:12px;cursor:pointer">بازیابی فایل<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div></div><div class="card"><h2 class="section-title">پاک‌سازی اطلاعات</h2><button class="danger" id="resetBtn">حذف همه اطلاعات برنامه</button></div></section>
-</main><footer>سامانه مدیریت ساعت کاری · طراحی و توسعه <span class="brand-credit">AMIRHOSSEIN.MO</span><br>نسخه PWA · اطلاعات روی همین دستگاه ذخیره می‌شوند</footer>
+
+<section id="shift" class="panel hidden"><div class="card"><h2 class="t" id="shT">ثبت ساعت کاری</h2>
+<form id="shiftForm"><input type="hidden" id="editId">
+<div class="field mgr"><label>پرسنل</label><select id="shiftStaff"></select></div>
+<div class="row"><div class="field" style="flex:2;min-width:250px"><label>تاریخ شیفت (شمسی)</label><div id="shiftDate"></div></div><div class="field"><label>ساعت شروع</label><input id="start" type="time" required></div><div class="field"><label>ساعت پایان</label><input id="end" type="time" required></div><div class="field"><label>استراحت (دقیقه)</label><input id="breakMin" type="number" min="0" value="0"></div></div>
+<div class="field"><label>توضیحات (اختیاری)</label><input id="note" maxlength="160"></div>
+<div id="prev" class="box hidden" aria-live="polite"></div>
+<div class="actions"><button type="submit" id="saveShift">ذخیره شیفت</button><button type="button" class="s" id="clearShift">پاک کردن فرم</button></div></form>
+<p class="muted">🔒 شیفتی که مدیر ثبت یا تأیید کند قفل می‌شود و پرسنل دیگر نمی‌تواند آن را تغییر دهد. تمام تغییرات ثبت می‌شوند.</p></div></section>
+
+<section id="history" class="panel hidden"><div class="card"><h2 class="t">تاریخچه شیفت‌ها</h2><div class="field no-print"><label>بازه</label><select id="period"><option value="all">همه</option><option value="m0">این ماه</option><option value="m1">ماه گذشته</option><option value="d7">۷ روز اخیر</option></select></div><div class="tw" id="historyTable"></div><div class="actions no-print"><button class="s" id="csvBtn">خروجی CSV</button><button class="s" onclick="print()">چاپ / PDF</button></div></div></section>
+
+<section id="payments" class="panel hidden"><div class="card mgr"><h2 class="t">ثبت پرداخت یا مساعده</h2><form id="payForm"><div class="row"><div class="field"><label>پرسنل</label><select id="payStaff"></select></div><div class="field" style="flex:2;min-width:250px"><label>تاریخ (شمسی)</label><div id="payDate"></div></div><div class="field"><label>مبلغ (تومان)</label><input id="payAmount" type="number" min="1" required></div><div class="field"><label>نوع</label><select id="payType"><option value="payment">پرداخت دستمزد</option><option value="advance">مساعده</option></select></div></div><div class="field"><label>توضیحات</label><input id="payNote" maxlength="160"></div><button type="submit">ثبت پرداخت</button></form></div><div class="card"><h2 class="t">سوابق پرداخت</h2><div class="tw" id="payTable"></div></div></section>
+
+<section id="bonuses" class="panel hidden"><div class="card mgr"><h2 class="t">ثبت پاداش 🎁</h2><form id="bonusForm"><div class="row"><div class="field"><label>پرسنل</label><select id="bonusStaff"></select></div><div class="field"><label>مبلغ (تومان)</label><input id="bonusAmount" type="number" min="1" required></div></div><div class="field"><label>علت</label><input id="bonusReason" maxlength="160"></div><button type="submit">ثبت (در انتظار پرداخت)</button></form></div><div class="card"><h2 class="t">سوابق پاداش</h2><div class="tw" id="bonusTable"></div></div></section>
+
+<section id="settings" class="panel hidden mgr"><div class="card"><h2 class="t">فروشگاه و دستمزد</h2>
+<form id="setForm"><div class="row"><div class="field"><label>نام فروشگاه</label><input id="storeName" maxlength="60"></div><div class="field"><label>روش محاسبه</label><select id="rateMode"><option value="hourly">ساعتی</option><option value="daily">روزانه</option></select></div><div class="field"><label>مبلغ پایه (تومان)</label><input id="rate" type="number" min="0"></div><div class="field"><label>ساعت عادی در روز</label><input id="normalHours" type="number" min="1" max="24" step=".5"></div><div class="field"><label>ضریب اضافه‌کاری</label><input id="overtime" type="number" min="1" max="5" step=".1"></div></div><button type="submit">ذخیره</button></form>
+<p class="muted">اضافه‌کاری روی مجموع ساعت‌های هر روز برای هر نفر حساب می‌شود، نه هر شیفت جداگانه.</p></div>
+<div class="card"><h2 class="t">پرسنل</h2><form id="staffForm" class="row"><div class="field"><label>نام</label><input id="stName" maxlength="40" required></div><div class="field"><label>رمز ورود (حداقل ۴ رقم)</label><input id="stPin" inputmode="numeric" minlength="4" maxlength="12" required></div><div class="field"><label>نرخ اختصاصی (اختیاری)</label><input id="stRate" type="number" min="0"></div><div class="field" style="align-self:end"><button>افزودن</button></div></form><div class="tw" id="staffList"></div>
+<div class="actions"><button class="s" id="chgPin">تغییر رمز مدیر</button></div></div>
+<div class="card"><h2 class="t">گزارش تغییرات</h2><div id="audit"></div></div></section>
+
+<section id="backup" class="panel hidden mgr"><div class="card"><h2 class="t">پشتیبان‌گیری</h2><p class="muted">اطلاعات فقط روی همین مرورگر ذخیره می‌شود؛ هفته‌ای یک بار پشتیبان بگیرید.</p><div class="actions"><button id="backupBtn">دانلود پشتیبان</button><label class="s" style="padding:11px 16px;border-radius:12px;cursor:pointer;font-weight:700;background:#0e7fc41f;color:var(--p)">بازیابی فایل<input id="restoreFile" type="file" accept=".json" hidden></label><button class="d" id="resetBtn">حذف همه اطلاعات</button></div></div></section>
+</main><footer>طراحی و توسعه <b class="br">AMIRHOSSEIN.MO</b></footer>
 <script src="app.js"></script></body></html>
